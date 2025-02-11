@@ -1,0 +1,7 @@
+## Setup
+
+Ensure the `smtp_host` variable is set to `smtp` our dockerized smtp service.
+
+```bash
+docker-compose up -d
+```
