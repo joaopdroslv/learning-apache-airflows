@@ -9,6 +9,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      # Runs the script that builds the database when the service starts
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    restart: always
+
   redis:
     image: redis:latest
     restart: always
@@ -34,7 +45,6 @@ services:
     command: >
       bash -c "airflow db upgrade &&
                airflow users create --username admin --password admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com &&
-               airflow variables import /opt/airflow/config/variables.json &&
                airflow webserver"
 
   airflow-scheduler:

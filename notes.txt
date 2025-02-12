@@ -1,7 +1,16 @@
 ## Setup
 
-Ensure the `smtp_host` variable is set to `smtp` our dockerized smtp service.
+To send email ensure the `smtp_host` variable is set to `smtp` our dockerized smtp service.
 
 ```bash
 docker-compose up -d
+```
+
+Command to import variables and connections
+
+```bash
+command: > 
+    bash -c "airflow variables import /opt/airflow/config/variables.json && 
+            airflow connections import /opt/airflow/config/connections.json && 
+            airflow scheduler"
 ```

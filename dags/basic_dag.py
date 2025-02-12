@@ -1,18 +1,23 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from airflow.models import Variable
 from airflow.utils.dates import days_ago
 from datetime import datetime
 
 
 def print_welcome():
-    print('Welcome to Airflow!')
+    greeting = Variable.get('greeting')
+    print(f'\n{greeting}')
+
+def print_hello_world():
+    print('\nHello, world!')
 
 def print_date():
-    print('Today is {}'.format(datetime.today().date()))
+    print('\nToday is {}'.format(datetime.today().date()))
 
 
 dag = DAG(
-    'welcome_dag',
+    'basic_dags_example',
     default_args={'start_date':days_ago(1)},
     schedule_interval='0 12 * * *',
     catchup=False
@@ -24,6 +29,12 @@ print_welcome_task = PythonOperator(
     dag=dag
 )
 
+print_hello_world_task = PythonOperator(
+    task_id='print_hello_world',
+    python_callable=print_hello_world,
+    dag=dag
+)
+
 print_date_task = PythonOperator(
     task_id='print_date',
     python_callable=print_date,
@@ -31,5 +42,5 @@ print_date_task = PythonOperator(
 )
 
 
-# Set the dependencies between the tasks
-print_welcome_task >> print_date_task
+# Define task dependencies
+print_welcome_task >> print_hello_world_task >> print_date_task
