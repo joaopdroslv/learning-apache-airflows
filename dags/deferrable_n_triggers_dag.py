@@ -12,9 +12,8 @@ def process_file():
     print('File available, processing it...')
 
 
-# Creating the DAG
 dag = DAG(
-    'deferrable_filesensor_native',
+    'deferrable_filesensorasync_example',
     default_args={'start_date': days_ago(1)},
     schedule_interval='@daily',
     catchup=False,
@@ -48,5 +47,5 @@ process_file_task = PythonOperator(
     dag=dag,
 )
 
-# Define task dependency: the file must exist before processing it
+# The file must exist before processing it
 wait_for_file >> process_file_task

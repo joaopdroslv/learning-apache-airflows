@@ -6,15 +6,15 @@ from datetime import datetime
 # Passing small data between tasks using XCom
 
 
-def push_data(**kwargs):
+def push_data(**context):
     # 'ti' is the task instance, which allows interaction with XCom and other task-level functions
-    # The 'kwargs' argument is passed automatically by Airflow, 
+    # The 'context' argument is passed automatically by Airflow, 
     #   containing contextual information for the task
-    kwargs['ti'].xcom_push(key='my_key', value='Hello from task A')
+    context['ti'].xcom_push(key='my_key', value='Hello from task A')
 
-def pull_data(**kwargs):
+def pull_data(**context):
     # Accessing the task instance 'ti' to pull data from XCom
-    ti = kwargs['ti']
+    ti = context['ti']
     value = ti.xcom_pull(task_ids='task_a', key='my_key')  # Pulling data from the task 'task_a' using the key 'my_key'
     print(f'Received data: {value}')
 

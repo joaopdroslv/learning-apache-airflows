@@ -11,7 +11,7 @@ USER airflow
 WORKDIR /opt/airflow
 
 # Copia apenas o arquivo de requisitos primeiro (para cache eficiente)
-COPY requirements.txt requirements.txt
+COPY requirements.txt .
 
 # Instala os pacotes do Airflow
 RUN pip install --no-cache-dir -r requirements.txt

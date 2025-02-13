@@ -59,5 +59,5 @@ process_file_task = PythonOperator(
 )
 
 
-# Define task dependencies: wait for the file before processing it
+# Wait for the file before processing it
 wait_for_file >> process_file_task

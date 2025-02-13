@@ -37,7 +37,7 @@ wait_for_api = HttpSensor(
 
 # Task that runs after the API is available
 process_data_task = PythonOperator(
-    task_id='process_data_task',
+    task_id='process_data',
     python_callable=process_data,
     dag=dag
 )
