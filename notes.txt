@@ -1,11 +1,3 @@
-## Setup
-
-To send email ensure the `smtp_host` variable is set to `smtp` our dockerized smtp service.
-
-```bash
-docker-compose up -d
-```
-
 Command to import variables and connections
 
 ```bash
