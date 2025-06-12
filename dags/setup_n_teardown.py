@@ -8,20 +8,20 @@ def raise_exception(str):
 
 
 dag = DAG(
-    'setup_teardown_example',
-    default_args={'start_date': days_ago(1)},
-    schedule_interval='0 12 * * *',
-    catchup=False
+    "setup_teardown_example",
+    default_args={"start_date": days_ago(1)},
+    schedule_interval="0 12 * * *",
+    catchup=False,
 )
 
 create_cluster_task = PythonOperator(
-    task_id='create_cluster',
+    task_id="create_cluster",
     python_callable=lambda: print("Creating Cluster"),
     dag=dag,
 )
 
 run_query1_task = PythonOperator(
-    task_id='run_query1',
+    task_id="run_query1",
     python_callable=lambda: print("Running Query 1"),
     dag=dag,
 )
@@ -33,19 +33,19 @@ run_query1_task = PythonOperator(
 # )
 
 run_query2_task = PythonOperator(
-    task_id='run_query2',
+    task_id="run_query2",
     python_callable=lambda: raise_exception("Failure in Query 2"),
     dag=dag,
 )
 
 run_query3_task = PythonOperator(
-    task_id='run_query3',
+    task_id="run_query3",
     python_callable=lambda: print("Running Query 3"),
     dag=dag,
 )
 
 delete_cluster_task = PythonOperator(
-    task_id='delete_cluster',
+    task_id="delete_cluster",
     python_callable=lambda: print("Deleting Cluster"),
     dag=dag,
 )

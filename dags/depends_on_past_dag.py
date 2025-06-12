@@ -2,11 +2,10 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 
-
 dag = DAG(
-    'depends_on_past_example',
-    default_args={'start_date': days_ago(1)},
-    schedule_interval='0 12 * * *',
+    "depends_on_past_example",
+    default_args={"start_date": days_ago(1)},
+    schedule_interval="0 12 * * *",
     catchup=False,
 )
 

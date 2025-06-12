@@ -1,36 +1,35 @@
 from airflow import DAG
-from airflow.sensors.filesystem import FileSensorAsync  # NOTE: This import is wrong
 from airflow.operators.python import PythonOperator
+from airflow.sensors.filesystem import FileSensorAsync  # NOTE: This import is wrong
 from airflow.utils.dates import days_ago
 
-
 # Path to the file that the DAG will monitor
-FILE_PATH = '/opt/airflow/data/my_csv.csv'
+FILE_PATH = "/opt/airflow/data/my_csv.csv"
 
 
 def process_file():
-    print('File available, processing it...')
+    print("File available, processing it...")
 
 
 dag = DAG(
-    'deferrable_filesensorasync_example',
-    default_args={'start_date': days_ago(1)},
-    schedule_interval='@daily',
+    "deferrable_filesensorasync_example",
+    default_args={"start_date": days_ago(1)},
+    schedule_interval="@daily",
     catchup=False,
 )
 
 # Asynchronous sensor that waits for the file without blocking the worker
 wait_for_file = FileSensorAsync(
-    task_id='wait_for_file',
+    task_id="wait_for_file",
     filepath=FILE_PATH,
     fs_conn_id=None,
     poke_interval=10,
     timeout=600,
-    mode='reschedule',
+    mode="reschedule",
     dag=dag,
 )
 
-# Our FileSensorAsync will fail because we haven't defined a filesystem connection in Airflow.  
+# Our FileSensorAsync will fail because we haven't defined a filesystem connection in Airflow.
 #
 # How does FileSensorAsync work?
 #
@@ -42,7 +41,7 @@ wait_for_file = FileSensorAsync(
 
 # Task that will run once the file is detected
 process_file_task = PythonOperator(
-    task_id='process_file_task',
+    task_id="process_file_task",
     python_callable=process_file,
     dag=dag,
 )
